@@ -24,4 +24,5 @@ jobs:
       env:
         TY_USER_NAME: ${{secrets.TY_USER_NAME}}
         TY_PASSWORD: ${{secrets.TY_PASSWORD}}
+        WEBHOOK: ${{secrets.WEBHOOK}}
       run: npm start

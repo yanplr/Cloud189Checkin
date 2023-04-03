@@ -5,7 +5,6 @@ const JSEncrypt = require('node-jsencrypt')
 const superagent = require('superagent');
 const config = require('../config')
 var client = superagent.agent();
-const WEBHOOK = 
 const headers = {
     "User-Agent":`Mozilla/5.0 (Linux; U; Android 11; ${config.model} Build/RP1A.201005.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36 Ecloud/${config.version} Android/30 clientId/${config.clientId} clientModel/${config.model} clientChannelId/qq proVersion/1.0.6`,
     "Referer":"https://m.cloud.189.cn/zhuanti/2016/sign/index.jsp?albumBackupOpened=1",
