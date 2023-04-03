@@ -139,7 +139,7 @@ const doLogin = async ()=>{
     }
     var userName = config.userName
     var password = config.password
-    console.log(`开始登录账号:${mask(userName,3,7)}`)
+    console.log(`开始登录账号:${mask(userName,3,9)}`)
     var encryptKey = await getEncrypt();
     var formData = await getLoginFormData(userName,password,encryptKey)
     var loginResult = await login(formData)
