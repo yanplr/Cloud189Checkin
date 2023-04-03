@@ -5,6 +5,7 @@ const JSEncrypt = require('node-jsencrypt')
 const superagent = require('superagent');
 const config = require('../config')
 var client = superagent.agent();
+const WEBHOOK = 
 const headers = {
     "User-Agent":`Mozilla/5.0 (Linux; U; Android 11; ${config.model} Build/RP1A.201005.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36 Ecloud/${config.version} Android/30 clientId/${config.clientId} clientModel/${config.model} clientChannelId/qq proVersion/1.0.6`,
     "Referer":"https://m.cloud.189.cn/zhuanti/2016/sign/index.jsp?albumBackupOpened=1",
@@ -160,16 +161,30 @@ const doTask = async ()=>{
         var res = await doGet(task)
         if(index == 0){
             //签到
-            result.push((res.isSign?'已经签到过了，':'')+`签到获得${res.netdiskBonus}M空间`)
+            result.push((res.isSign?'yanplr-189checkin-已经签到过了，':'')+`签到获得${res.netdiskBonus}M空间`);
+            pushDing((res.isSign?'yanplr-189checkin-已经签到过了，':'')+`yanplr-签到获得${res.netdiskBonus}M空间`);
         }else{
             if(res.errorCode === 'User_Not_Chance'){
-                result.push(`第${index}次抽奖失败,次数不足`)
+                result.push(`yanplr-189checkin-第${index}次抽奖失败,次数不足`);
+                pushDing(`yanplr-189checkin-第${index}次抽奖失败,次数不足`);
             }else{
-                result.push(`第${index}次抽奖成功,抽奖获得${res.prizeName}`)
+                result.push(`yanplr-189checkin-第${index}次抽奖成功,抽奖获得${res.prizeName}`);
+                pushDing((`yanplr-189checkin-第${index}次抽奖成功,抽奖获得${res.prizeName}`));
             }
         }
     }
     return result
+}
+
+const pushDing = (message) => {
+    // const url = WEBHOOK;
+    const url = config.webhook;
+    const send = axios.post(url, {
+        msgtype: 'text',
+        text: {
+            content: message,
+        }
+    })
 }
 
 // 开始执行程序
@@ -180,6 +195,7 @@ doLogin().then(res=>{
         result.forEach(r=>console.log(r))
     }).catch(e=>{
         console.error('任务执行失败:'+JSON.stringify(e))
+        pushDing("yanplr-189checkin-任务执行失败:"+JSON.stringify(e))
     })
 }).catch(e=>{
     console.error('登录失败:'+JSON.stringify(e))

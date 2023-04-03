@@ -2,6 +2,7 @@
 module.exports = {
     userName:process.env['TY_USER_NAME']||'userName',
     password:process.env['TY_PASSWORD']||'password',
+    webhook:process.env['WEBHOOK'] ||'webhook',
     clientId:'538135150693412',
     model:'KB2000',
     version:'9.0.6',
